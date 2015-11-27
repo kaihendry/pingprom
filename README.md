@@ -1,3 +1,20 @@
+# GOAL (not achieved)
+
+Implement Pingdom type functionality with http://prometheus.io/ with least LOC possible.
+
+	wc -l *.{yml,service,conf} prometheus/* | tail -n1
+	 136 total
+
+
+* Monitor lots of Websites: foo.example.com, bar.example.com, google.com ....
+* Email when site goes down
+* Graph history of outages
+
+Features:
+
+* Keeps upto date between reboots
+* Containerized, for example:
+
 # Setup
 
 Assuming you are sshing to a [CoreOS](https://coreos.com/) machine. Basically "pingprom" requires systemd & Docker.
@@ -9,25 +26,13 @@ Assuming you are sshing to a [CoreOS](https://coreos.com/) machine. Basically "p
 	sudo systemctl start *.service
 	sudo systemctl enable *.service
 
-# GOAL (not achieved)
+Create alertmanager.env & edit alertmanager.conf
 
-Implement Pingdom type functionality with http://prometheus.io/ with least LOC possible.
+# alertmanager.env
 
-	wc -l *.{yml,service,conf} prometheus/* | tail -n1
-	 131 total
+Tested with <https://us-west-2.console.aws.amazon.com/ses/home?region=us-west-2#verified-senders-email:>
 
-* Monitor lots of Websites: foo.example.com, bar.example.com, google.com ....
-* Email when site goes down
-* Graph history of outages
-
-# Features
-
-* Keeps upto date between reboots
-* Containerized, for example:
-
-
-	CONTAINER ID        IMAGE                           COMMAND                CREATED             STATUS              PORTS                    NAMES
-	7150415e7c66        prom/node-exporter:latest       "/bin/go-run"          4 minutes ago       Up 4 minutes                                 node-exporter       
-	02aab1abd972        prom/blackbox-exporter:latest   "/bin/go-run -config   4 minutes ago       Up 4 minutes        0.0.0.0:9115->9115/tcp   blackboxprober      
-	1609230dd89b        prom/alertmanager:latest        "/bin/go-run -config   4 minutes ago       Up 4 minutes        0.0.0.0:9093->9093/tcp   alertmanager        
-	30cc9261b37f        prom/prometheus:latest          "/bin/prometheus -co   4 minutes ago       Up 4 minutes                                 prom                
+	HOST=email-smtp.us-west-2.amazonaws.com:587
+	USER=AKIAINSHZHYMQYHXD4FQ
+	PASS=secret
+	FROM=rojak@webconverger.com

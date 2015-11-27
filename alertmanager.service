@@ -6,10 +6,19 @@ After=docker.service
 [Service]
 Environment="NAME=alertmanager"
 Environment="IMG=prom/alertmanager:latest"
+EnvironmentFile=/home/core/pingprom/alertmanager.env
 
 ExecStartPre=-/usr/bin/docker pull $IMG
 ExecStartPre=-/usr/bin/docker rm -f $NAME
-ExecStart=/usr/bin/docker run -p 9093:9093 --name ${NAME} -v /home/core/pingprom/alertmanager.conf:/alertmanager.conf ${IMG} -config.file=/alertmanager.conf
+ExecStart=/usr/bin/docker run -p 9093:9093 \
+	--name ${NAME} \
+	-v /home/core/pingprom/alertmanager.conf:/alertmanager.conf \
+	-e SMTP_AUTH_USERNAME="${USER}" \
+	-e SMTP_AUTH_PASSWORD="${PASS}" \
+	${IMG} \
+	-config.file=/alertmanager.conf \
+	-notification.smtp.smarthost="${HOST}" \
+	-notification.smtp.sender="${FROM}"
 
 [Install]
 WantedBy=multi-user.target
