@@ -9,7 +9,7 @@ Environment="IMG=prom/alertmanager:latest"
 
 ExecStartPre=-/usr/bin/docker pull $IMG
 ExecStartPre=-/usr/bin/docker rm -f $NAME
-ExecStart=/usr/bin/docker run -p 9093:9093 --name ${NAME} -v /home/core/pingdom/alertmanager.conf:/alertmanager.conf ${IMG} -config.file=/alertmanager.conf
+ExecStart=/usr/bin/docker run -p 9093:9093 --name ${NAME} -v /home/core/pingprom/alertmanager.conf:/alertmanager.conf ${IMG} -config.file=/alertmanager.conf
 
 [Install]
 WantedBy=multi-user.target

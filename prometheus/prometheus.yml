@@ -14,7 +14,7 @@ scrape_configs:
    metrics_path: /probe
    params:
      module: [http_2xx]
-     target: [test.dabase.com]
+     target: [foo.example.com,bar.example.com,google.com]
    target_groups:
      - targets:
        - localhost:9115
