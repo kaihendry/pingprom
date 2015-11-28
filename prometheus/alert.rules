@@ -1,5 +1,5 @@
 ALERT website_down
-  IF up == 0
+  IF probe_success == 0
   FOR 1m
   WITH {
     severity="page"

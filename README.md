@@ -13,7 +13,7 @@ Implement Pingdom type functionality with http://prometheus.io/ with least LOC p
 Features:
 
 * Keeps upto date between reboots
-* Containerized, for example:
+* Containerized
 
 # Setup
 

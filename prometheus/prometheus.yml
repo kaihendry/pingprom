@@ -10,11 +10,27 @@ scrape_configs:
    target_groups:
     - targets:
       - localhost:9090
- - job_name: 'blackboxhttp'
+ - job_name: 'blackboxfoo'
    metrics_path: /probe
    params:
      module: [http_2xx]
-     target: [foo.example.com,bar.example.com,google.com]
+     target: [foo.example.com]
+   target_groups:
+     - targets:
+       - localhost:9115
+ - job_name: 'blackboxbar'
+   metrics_path: /probe
+   params:
+     module: [http_2xx]
+     target: [bar.example.com]
+   target_groups:
+     - targets:
+       - localhost:9115
+ - job_name: 'blackboxgoog'
+   metrics_path: /probe
+   params:
+     module: [http_2xx]
+     target: [google.com]
    target_groups:
      - targets:
        - localhost:9115
