@@ -10,7 +10,7 @@ Environment="IMG=prom/blackbox-exporter:latest"
 ExecStartPre=-/usr/bin/docker pull $IMG
 ExecStartPre=-/usr/bin/docker rm -f $NAME
 
-ExecStart=/usr/bin/docker run -p 9115:9115 --rm --name ${NAME} --privileged -v /home/core/pingprom/blackbox.yml:/config/blackbox.yml ${IMG} -config.file=/config/blackbox.yml
+ExecStart=/usr/bin/docker run -p 127.0.0.1:9115:9115 --rm --name ${NAME} --privileged -v /home/core/pingprom/blackbox.yml:/config/blackbox.yml ${IMG} -config.file=/config/blackbox.yml
 
 [Install]
 WantedBy=multi-user.target

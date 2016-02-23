@@ -9,7 +9,7 @@ Environment="IMG=prom/prometheus:latest"
 
 ExecStartPre=-/usr/bin/docker pull $IMG
 ExecStartPre=-/usr/bin/docker rm -f $NAME
-ExecStart=/usr/bin/docker run --rm -p 9090:9090 --net=host --name ${NAME} -v /home/core/pingprom/prometheus:/etc/prometheus/ ${IMG} -config.file=/etc/prometheus/prometheus.yml -alertmanager.url=http://localhost:9093 -web.console.libraries=/etc/prometheus/console_libraries -web.console.templates=/etc/prometheus/consoles
+ExecStart=/usr/bin/docker run --rm -p 127.0.0.1:9090:9090 --link blackboxprober --name ${NAME} -v /home/core/pingprom/prometheus:/etc/prometheus/ ${IMG} -config.file=/etc/prometheus/prometheus.yml -web.console.libraries=/etc/prometheus/console_libraries -web.console.templates=/etc/prometheus/consoles
 
 [Install]
 WantedBy=multi-user.target
