@@ -1,0 +1,18 @@
+# https://coreos.com/docs/launching-containers/launching/getting-started-with-systemd/
+[Unit]
+Description=Caddy
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+User=core
+ExecStartPre=-/usr/bin/docker kill caddy
+ExecStartPre=-/usr/bin/docker rm caddy
+ExecStartPre=-/usr/bin/docker pull abiosoft/caddy
+ExecStart=/usr/bin/docker run --name caddy -e HOSTNAME=%H --link prom -v /home/core/pingprom/Caddyfile:/etc/Caddyfile -v /home/core/.caddy:/root/.caddy -p 80:80 -p 443:443 abiosoft/caddy
+RestartSec=5
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

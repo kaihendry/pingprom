@@ -1,0 +1,4 @@
+- targets:
+    - foo.example.com
+    - example.com/foo
+    - google.com
