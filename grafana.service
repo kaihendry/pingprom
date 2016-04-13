@@ -1,0 +1,15 @@
+[Unit]
+Description=Grafana
+Requires=docker.service
+After=docker.service
+
+[Service]
+Environment="NAME=grafana"
+Environment="IMG=grafana/grafana:latest"
+
+ExecStartPre=-/usr/bin/docker pull $IMG
+ExecStartPre=-/usr/bin/docker rm -f $NAME
+ExecStart=/usr/bin/docker run -i --net=host -v /var/lib/grafana:/var/lib/grafana --name ${NAME} -p 3000:3000 ${IMG}
+
+[Install]
+WantedBy=multi-user.target

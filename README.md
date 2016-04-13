@@ -3,12 +3,11 @@
 Implement Pingdom type functionality with http://prometheus.io/ with least LOC possible.
 
 	wc -l *.{yml,service,conf} prometheus/* | tail -n1
-	 136 total
-
+	 156 total
 
 * Monitor lots of Websites: foo.example.com, bar.example.com, google.com ....
-* Email when site goes down
-* Graph history of outages
+* Email when site goes down with alertmanager
+* Graph history of outages with grafana http://0.0.0.0:3000
 
 Features:
 

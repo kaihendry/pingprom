@@ -1,4 +1,3 @@
-# https://coreos.com/docs/launching-containers/launching/getting-started-with-systemd/
 [Unit]
 Description=Caddy
 After=docker.service
