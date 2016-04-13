@@ -16,9 +16,7 @@ ExecStart=/usr/bin/docker run -p 9093:9093 \
 	-e SMTP_AUTH_USERNAME="${USER}" \
 	-e SMTP_AUTH_PASSWORD="${PASS}" \
 	${IMG} \
-	-config.file=/alertmanager.conf \
-	-notification.smtp.smarthost="${HOST}" \
-	-notification.smtp.sender="${FROM}"
+	-config.file=/alertmanager.yml
 
 [Install]
 WantedBy=multi-user.target

@@ -1,3 +1,4 @@
+# https://github.com/prometheus/alertmanager/issues/305
 ALERT website_down
   IF probe_success == 0
   FOR 1m

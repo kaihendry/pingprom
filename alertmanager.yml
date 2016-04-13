@@ -1,0 +1,4 @@
+# Simple example reference: https://github.com/prometheus/alertmanager/blob/master/doc/examples/simple.yml
+global:
+    smtp_smarthost: 'email-smtp.us-west-2.amazonaws.com:587'
+    smtp_from: 'Alertmanager <rojak@webconverger.com>'
