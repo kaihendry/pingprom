@@ -1,4 +1,17 @@
-# Simple example reference: https://github.com/prometheus/alertmanager/blob/master/doc/examples/simple.yml
 global:
-    smtp_smarthost: 'email-smtp.us-west-2.amazonaws.com:587'
-    smtp_from: 'Alertmanager <rojak@webconverger.com>'
+    smtp_smarthost: 'email-smtp.us-west-2.amazonaws.com:587' # Oregon location
+    smtp_from: 'Alertmanager <alertmanager@example.com>'
+
+templates:
+- '/etc/alertmanager/template/*.tmpl'
+
+route:
+  # TODO: figure these out
+  group_by: ['alertname', 'cluster', 'service']
+
+  receiver: team-X-mails
+
+receivers:
+- name: 'team-X-mails'
+  email_configs:
+  - to: 'alert@example.com'

@@ -5,7 +5,7 @@ After=docker.service
 
 [Service]
 Environment="NAME=grafana"
-Environment="IMG=grafana/grafana:latest"
+Environment="IMG=grafana/grafana:master"
 
 ExecStartPre=-/usr/bin/docker pull $IMG
 ExecStartPre=-/usr/bin/docker rm -f $NAME

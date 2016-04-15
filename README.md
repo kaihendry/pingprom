@@ -1,12 +1,12 @@
 # GOAL (not achieved)
 
-Implement Pingdom type functionality with http://prometheus.io/ with least LOC possible.
+Implement Pingdom type functionality with https://prometheus.io/ with least LOC possible.
 
 	wc -l *.{yml,service,conf} prometheus/* | tail -n1
 	 156 total
 
 * Monitor lots of Websites: foo.example.com, bar.example.com, google.com ....
-* Email when site goes down with alertmanager
+* Email when site goes down with alertmanager & AWS SES
 * Graph history of outages with grafana http://0.0.0.0:3000
 
 Features:
@@ -31,5 +31,5 @@ Create alertmanager.env & edit alertmanager.conf
 
 Tested with <https://us-west-2.console.aws.amazon.com/ses/home?region=us-west-2#verified-senders-email:>
 
-	USER=AKIAINSHZHYMQYHXD4FQ
-	PASS=secret
+	ACCESS=AKIAINSHZHYMQYHXD4FQ
+	SECRET=secret
