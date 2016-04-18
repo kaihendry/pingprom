@@ -1,9 +1,9 @@
-# GOAL (not achieved)
+# GOAL
 
 Implement Pingdom type functionality with https://prometheus.io/ with least LOC possible.
 
-	wc -l *.{yml,service,conf} prometheus/* | tail -n1
-	 156 total
+	wc -l *.{yml,service} prometheus/* | tail -n1
+	 161 total
 
 * Monitor lots of Websites: foo.example.com, bar.example.com, google.com ....
 * Email when site goes down with alertmanager & AWS SES
@@ -25,11 +25,4 @@ Assuming you are sshing to a [CoreOS](https://coreos.com/) machine. Basically "p
 	sudo systemctl start *.service
 	sudo systemctl enable *.service
 
-Create alertmanager.env & edit alertmanager.conf
-
-# alertmanager.env
-
-Tested with <https://us-west-2.console.aws.amazon.com/ses/home?region=us-west-2#verified-senders-email:>
-
-	ACCESS=AKIAINSHZHYMQYHXD4FQ
-	SECRET=secret
+**Edit alertmanager.env** to get your email notifications working with <https://us-west-2.console.aws.amazon.com/ses/home?region=us-west-2#verified-senders-email:>

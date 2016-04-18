@@ -1,5 +1,5 @@
 global:
-    smtp_smarthost: 'email-smtp.us-west-2.amazonaws.com:587' # Oregon location
+    smtp_smarthost: 'email-smtp.us-west-2.amazonaws.com:587' # Oregon region
     smtp_from: 'Alertmanager <alertmanager@example.com>'
 
 templates:

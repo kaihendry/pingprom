@@ -1,6 +1,7 @@
 [Unit]
 Description=Prometheus
 Requires=docker.service
+Wants=alertmanager.service blackbox-exporter.service
 After=docker.service
 
 [Service]
