@@ -6,7 +6,6 @@ After=docker.service
 [Service]
 Environment="NAME=alertmanager"
 Environment="IMG=prom/alertmanager:master"
-EnvironmentFile=/home/core/pingprom/alertmanager.env
 Environment="USER=core"
 
 ExecStartPre=-/usr/bin/docker pull $IMG
@@ -14,8 +13,6 @@ ExecStartPre=-/usr/bin/docker rm -f $NAME
 ExecStart=/usr/bin/docker run -p 9093:9093 \
 	--name ${NAME} \
 	-v /home/${USER}/pingprom/alertmanager.yml:/alertmanager.yml \
-	-e SMTP_AUTH_USERNAME="${ACCESS}" \
-	-e SMTP_AUTH_PASSWORD="${SECRET}" \
 	${IMG} \
 	-config.file=/alertmanager.yml
 

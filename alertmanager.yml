@@ -1,17 +1,40 @@
+# Simple example reference: https://github.com/prometheus/alertmanager/blob/master/doc/examples/simple.yml
 global:
-    smtp_smarthost: 'email-smtp.us-west-2.amazonaws.com:587' # Oregon region
-    smtp_from: 'Alertmanager <alertmanager@example.com>'
+    smtp_smarthost: 'email-smtp.us-west-2.amazonaws.com:587'
+    smtp_from: 'Alertmanager <dev@example.com>'
+    smtp_auth_username: 'FILLMEIN'
+    smtp_auth_password: 'FILLMEIN'
 
+# The directory from which notification templates are read.
 templates:
 - '/etc/alertmanager/template/*.tmpl'
 
+# The root route on which each incoming alert enters.
 route:
-  # TODO: figure these out
+  # The labels by which incoming alerts are grouped together. For example,
+  # multiple alerts coming in for cluster=A and alertname=LatencyHigh would
+  # be batched into a single group.
   group_by: ['alertname', 'cluster', 'service']
 
+  # When a new group of alerts is created by an incoming alert, wait at
+  # least 'group_wait' to send the initial notification.
+  # This way ensures that you get multiple alerts for the same group that start
+  # firing shortly after another are batched together on the first
+  # notification.
+  group_wait: 30s
+
+  # When the first notification was sent, wait 'group_interval' to send a betch
+  # of new alerts that started firing for that group.
+  group_interval: 5m
+
+  # If an alert has successfully been sent, wait 'repeat_interval' to
+  # resend them.
+  repeat_interval: 3h
+
+  # A default receiver
   receiver: team-X-mails
 
 receivers:
 - name: 'team-X-mails'
   email_configs:
-  - to: 'alert@example.com'
+  - to: 'you+prom@example.com'
