@@ -1,3 +1,3 @@
 ALERT website_down
   IF probe_success == 0
-  FOR 1m
+  FOR 1h

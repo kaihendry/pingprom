@@ -6,12 +6,11 @@ After=docker.service
 [Service]
 Environment="NAME=blackboxprober"
 Environment="IMG=prom/blackbox-exporter:master"
-Environment="USER=core"
 
 ExecStartPre=-/usr/bin/docker pull $IMG
 ExecStartPre=-/usr/bin/docker rm -f $NAME
 
-ExecStart=/usr/bin/docker run -p 9115:9115 --rm --name ${NAME} --privileged -v /home/${USER}/pingprom/blackbox.yml:/config/blackbox.yml ${IMG} -config.file=/config/blackbox.yml
+ExecStart=/usr/bin/docker run -p 9115:9115 --rm --name ${NAME} --privileged -v /home/%i/pingprom/blackbox.yml:/config/blackbox.yml ${IMG} -config.file=/config/blackbox.yml
 
 [Install]
 WantedBy=multi-user.target

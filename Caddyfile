@@ -1,5 +1,0 @@
-{$HOSTNAME} {
-	basicauth / user s3cr3t
-	tls youremail@example.com
-	proxy / prom:9090
-}

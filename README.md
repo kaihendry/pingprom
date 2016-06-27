@@ -21,6 +21,8 @@ Assuming you are sshing to a [CoreOS](https://coreos.com/) machine. Basically "p
 	ssh core@ip
 	git clone https://github.com/kaihendry/pingprom.git
 	cd /etc/systemd/system
-	for i in ~/pingprom/*.service; do sudo ln $i; done
-	sudo systemctl start *.service
-	sudo systemctl enable *.service
+	for i in ~/pingprom/*.service; do echo sudo ln $i; done
+	echo sudo systemctl start $(for i in ~/pingprom/*@.service; do echo $(basename $i .service)$USER; done)
+	for i in ~/pingprom/grafana.service; do echo sudo systemctl start $(basename $i .service); done
+
+Now you need to `systemctl status` or `journalctl -u alertmanager@${USER}.service -f` to debug the failing ones and once everything looks OK.

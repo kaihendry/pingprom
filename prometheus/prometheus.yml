@@ -7,13 +7,13 @@ rule_files:
 
 scrape_configs:
   - job_name: 'bb'
-    scrape_interval: 10s
+    scrape_interval: 30s
     scrape_timeout: 10s
     metrics_path: /probe
     params:
       module: [http_2xx]  # Look for a HTTP 200 response.
     file_sd_configs:
-      - names:
+      - files:
         - /etc/prometheus/targets.yml
     relabel_configs:
       - source_labels: [__address__]
@@ -28,3 +28,31 @@ scrape_configs:
         regex: .*
         target_label: __address__
         replacement: blackboxprober:9115  # Blackbox exporter.
+  - job_name: 'mybb'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    metrics_path: /probe
+    basic_auth:
+        username: 'malaysia'
+        password: 'boleh'
+    params:
+      module: [http_2xx]  # Look for a HTTP 200 response.
+    file_sd_configs:
+      - files:
+        - /etc/prometheus/targets.yml
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: (.*)(:80)?
+        target_label: __param_target
+        replacement: ${1}
+      - source_labels: [__param_target]
+        regex: (.*)
+        target_label: instance
+        replacement: ${1}
+      - source_labels: []
+        regex: .*
+        target_label: __address__
+        replacement: mybbe.dabase.com:8888
+  - job_name: 'caddy'
+    target_groups:
+      - targets: ['192.168.1.7:9180']
