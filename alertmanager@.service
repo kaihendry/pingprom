@@ -4,18 +4,13 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-Environment="NAME=alertmanager"
-Environment="IMG=prom/alertmanager"
-
-ExecStartPre=-/usr/bin/docker pull $IMG
-ExecStartPre=-/usr/bin/docker rm -f $NAME
-ExecStart=/usr/bin/docker run -p 9093:9093 \
-	--name ${NAME} \
+ExecStartPre=-/usr/bin/docker pull prom/alertmanager
+ExecStart=/usr/bin/docker run --rm \
+	--name alertmanager \
 	-v /home/%i/pingprom/alertmanager.yml:/alertmanager.yml \
-	${IMG} \
-	-config.file=/alertmanager.yml
-RestartSec=10
-Restart=always
+	prom/alertmanager \
+	-config.file=/alertmanager.yml \
+	-web.external-url=https://alerts.dabase.com
 
 [Install]
 WantedBy=multi-user.target

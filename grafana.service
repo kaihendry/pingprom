@@ -4,12 +4,8 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-Environment="NAME=grafana"
-Environment="IMG=grafana/grafana:master"
-
-ExecStartPre=-/usr/bin/docker pull $IMG
-ExecStartPre=-/usr/bin/docker rm -f $NAME
-ExecStart=/usr/bin/docker run -i --net=host -v /var/lib/grafana:/var/lib/grafana --name ${NAME} -p 3000:3000 ${IMG}
+ExecStartPre=-/usr/bin/docker pull grafana/grafana
+ExecStart=/usr/bin/docker run --rm -v /var/lib/grafana:/var/lib/grafana --name grafana -e "GF_SERVER_ROOT_URL=https://grafana.dabase.com" -e "GF_SECURITY_ADMIN_PASSWORD=SECRET" grafana/grafana
 
 [Install]
 WantedBy=multi-user.target
