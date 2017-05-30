@@ -1,14 +1,8 @@
 - targets:
     - natalian.org
     - webconverger.com
+    - webconverger.org
     - hendry.iki.fi
     - config.webconverger.com
-    - d.duroa.dabase.com
-    - www.nea.gov.sg/api/WebAPI/?dataset=psi_update
-    - toggle.dabase.com
-    - archpi.dabase.com
-    - pc.dabase.com
-    - exif.dabase.com
-    - up.dabase.com
-    - jsonunroller.appspot.com
-    - tap.dabase.com
+    - h.duroa.dabase.com
+    - letterly.com
