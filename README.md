@@ -23,6 +23,16 @@ Assuming you are sshing to a [CoreOS](https://coreos.com/) machine. Basically "p
 	cd /etc/systemd/system
 	for i in ~/pingprom/*.service; do echo sudo ln $i; done
 	echo sudo systemctl start $(for i in ~/pingprom/*@.service; do echo $(basename $i .service)$USER; done)
-	for i in ~/pingprom/grafana.service; do echo sudo systemctl start $(basename $i .service); done
 
 Now you need to `systemctl status` or `journalctl -u alertmanager@${USER}.service -f` to debug the failing ones and once everything looks OK.
+
+# Caddy configuration for nicer URLs
+
+	prom.dabase.com {
+		tls youremail@example.com
+		proxy / prom:9090
+	}
+	alerts.dabase.com {
+		tls youremail@example.com
+		proxy / alertmanager:9093
+	}
