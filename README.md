@@ -28,11 +28,11 @@ Now you need to `systemctl status` or `journalctl -u alertmanager@${USER}.servic
 
 # Caddy configuration for nicer URLs
 
-	prom.dabase.com {
+	prom.example.com {
 		tls youremail@example.com
 		proxy / prom:9090
 	}
-	alerts.dabase.com {
+	alerts.example.com {
 		tls youremail@example.com
 		proxy / alertmanager:9093
 	}

@@ -1,8 +1,4 @@
 - targets:
-    - https://natalian.org
-    - https://webconverger.com
-    - https://webconverger.org
-    - https://hendry.iki.fi
-    - https://config.webconverger.com
-    - https://h.duroa.dabase.com
-    - https://letterly.com
+    - foo.example.com
+    - example.com/foo
+    - google.com

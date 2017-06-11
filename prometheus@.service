@@ -8,7 +8,7 @@ ExecStartPre=-/usr/bin/docker pull prom/prometheus
 ExecStart=/usr/bin/docker run --rm -p 9090:9090 -v /home/%i/pingprom/data:/prometheus/data -v /home/%i/pingprom/prometheus:/pingprom/ \
  --link alertmanager --link blackboxprober \
  --name prom \
- prom/prometheus -storage.local.retention=8544h -config.file=/pingprom/prometheus.yml -alertmanager.url=http://alertmanager:9093 -web.external-url=https://prom.dabase.com/ -web.console.templates=/usr/share/prometheus/consoles -web.console.libraries=/etc/prometheus/console_libraries
+ prom/prometheus -storage.local.retention=8544h -config.file=/pingprom/prometheus.yml -alertmanager.url=http://alertmanager:9093 -web.external-url=https://prom.example.com/ -web.console.templates=/usr/share/prometheus/consoles -web.console.libraries=/etc/prometheus/console_libraries
 RestartSec=10
 Restart=on-failure
 
