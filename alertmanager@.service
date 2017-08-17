@@ -10,7 +10,7 @@ ExecStart=/usr/bin/docker run --rm \
 	-v /home/%i/pingprom/alertmanager.yml:/alertmanager.yml \
 	prom/alertmanager \
 	-config.file=/alertmanager.yml \
-	-web.external-url=https://alerts.dabase.com
+	-web.external-url=https://alerts.example.com
 
 [Install]
 WantedBy=multi-user.target
