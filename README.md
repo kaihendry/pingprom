@@ -19,13 +19,15 @@ Features:
 Assuming you are sshing to a [CoreOS](https://coreos.com/) machine. "pingprom" **requires systemd & Docker**.
 
 	ssh core@ip
-	docker network create --driver bridge pingprom
-	git clone https://github.com/kaihendry/pingprom.git
-	cd /etc/systemd/system
-	for i in ~/pingprom/*.service; do ln $i; done
-	systemctl daemon-reload
-	systemctl start $(for i in ~/pingprom/*.service; do echo $(basename $i); done)
-	systemctl enable $(for i in ~/pingprom/*.service; do echo $(basename $i); done)
+	# docker network create --driver bridge pingprom
+	# git clone https://github.com/kaihendry/pingprom.git
+	# export PINGPROM=$(readlink -f pingprom) # make a note where the checkout is
+	# echo PINGPROM=$PINGPROM > /etc/default/pingprom
+	# cd /etc/systemd/system
+	# for i in $PINGPROM/*.service; do ln $i; done
+	# systemctl daemon-reload
+	# systemctl start $(for i in $PINGPROM/*.service; do echo $(basename $i); done)
+	# systemctl enable $(for i in $PINGPROM/*.service; do echo $(basename $i); done)
 
 Now you need to `systemctl status` or `journalctl -b -f` to debug the failing ones and once everything looks OK.
 

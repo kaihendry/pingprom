@@ -4,7 +4,7 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-Environment=PINGPROM=/root/pingprom
+EnvironmentFile=/etc/default/pingprom
 ExecStartPre=-/usr/bin/docker pull prom/alertmanager
 ExecStart=/usr/bin/docker run --rm \
 	--name alertmanager \

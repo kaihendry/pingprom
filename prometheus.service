@@ -4,7 +4,7 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-Environment=PINGPROM=/root/pingprom
+EnvironmentFile=/etc/default/pingprom
 ExecStartPre=-/usr/bin/docker pull prom/prometheus
 ExecStart=/usr/bin/docker run --rm -p 9090:9090 -v ${PINGPROM}/data:/prometheus/data -v ${PINGPROM}/prometheus:/pingprom/ \
  --network=pingprom \
