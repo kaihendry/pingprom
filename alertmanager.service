@@ -4,13 +4,15 @@ Requires=docker.service
 After=docker.service
 
 [Service]
+Environment=PINGPROM=/root/pingprom
 ExecStartPre=-/usr/bin/docker pull prom/alertmanager
 ExecStart=/usr/bin/docker run --rm \
 	--name alertmanager \
-	-v /home/%i/pingprom/alertmanager.yml:/alertmanager.yml \
+	--network=pingprom \
+	-v ${PINGPROM}/alertmanager.yml:/alertmanager.yml \
 	prom/alertmanager \
-	-config.file=/alertmanager.yml \
-	-web.external-url=https://alerts.example.com
+	-config.file=/alertmanager.yml
+# -web.external-url=https://alerts.example.com
 
 [Install]
 WantedBy=multi-user.target
