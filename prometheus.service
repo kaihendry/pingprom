@@ -9,9 +9,9 @@ ExecStartPre=-/usr/bin/docker pull prom/prometheus
 ExecStart=/usr/bin/docker run --rm -p 9090:9090 -v ${PINGPROM}/data:/prometheus/data -v ${PINGPROM}/prometheus:/pingprom/ \
  --network=pingprom \
  --name prom \
- prom/prometheus -config.file=/pingprom/prometheus.yml -alertmanager.url=http://alertmanager:9093 \
- -web.console.templates=/usr/share/prometheus/consoles -web.console.libraries=/etc/prometheus/console_libraries
-# -web.external-url=https://prom.example.com/
+ prom/prometheus --config.file=/pingprom/prometheus.yml \
+ --web.console.templates=/usr/share/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries
+# --web.external-url=https://prom.example.com/
 RestartSec=10
 Restart=on-failure
 

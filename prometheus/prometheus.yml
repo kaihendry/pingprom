@@ -22,3 +22,8 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: blackboxprober:9115  # Blackbox exporter.
+
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets: ["alertmanager:9093"]

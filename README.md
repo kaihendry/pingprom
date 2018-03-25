@@ -19,7 +19,7 @@ Features:
 Assuming you are sshing to a [CoreOS](https://coreos.com/) machine. "pingprom" **requires systemd & Docker**.
 
 	ssh core@ip
-	# docker network create --driver bridge pingprom
+	# docker network create pingprom
 	# git clone https://github.com/kaihendry/pingprom.git
 	# export PINGPROM=$(readlink -f pingprom) # make a note where the checkout is
 	# echo PINGPROM=$PINGPROM > /etc/default/pingprom
