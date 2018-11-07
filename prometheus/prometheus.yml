@@ -7,15 +7,22 @@ rule_files:
 
 scrape_configs:
   - job_name: 'currentcost'
+    scheme: https
     basic_auth:
         username: 'hendry'
         password: 'boleh'
     static_configs:
       - targets: ['cc.dabase.com']
+  - job_name: 'uneetprod'
+    scheme: https
+    bearer_token: RIlYDc7XhqldRhSOJvgH
+    static_configs:
+      - targets: ['dbcheck.unee-t.com']
   - job_name: 'bb'
     scrape_interval: 5m
     scrape_timeout: 10s
     metrics_path: /probe
+    scheme: https
     basic_auth:
         username: 'hendry'
         password: 'boleh'
@@ -35,6 +42,7 @@ scrape_configs:
     scrape_interval: 5m
     scrape_timeout: 10s
     metrics_path: /probe
+    scheme: https
     basic_auth:
         username: 'malaysia'
         password: 'boleh'
@@ -49,9 +57,10 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: mybbe.dabase.com:8888
+        replacement: mybbe.dabase.com
   - job_name: 'blackbox-icmp'
     metrics_path: /probe
+    scheme: https
     basic_auth:
         username: 'hendry'
         password: 'boleh'
@@ -70,6 +79,10 @@ scrape_configs:
         replacement: bbe.dabase.com  # Blackbox exporter.
   - job_name: 'blackbox-888-icmp'
     metrics_path: /probe
+    scheme: https
+    basic_auth:
+        username: 'hendry'
+        password: 'boleh'
     params:
       module: [icmp]
     static_configs:
@@ -82,9 +95,13 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: 888.dabase.com:9115  # Blackbox exporter.
+        replacement: bbe.dabase.com  # Blackbox exporter.
   - job_name: 'blackbox-home'
     metrics_path: /probe
+    scheme: https
+    basic_auth:
+        username: 'hendry'
+        password: 'boleh'
     params:
       module: [http_2xx_home]  # Look for a HTTP 200 response.
     static_configs:
@@ -96,7 +113,7 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: blackboxprober:9115  # The blackbox exporter's real hostname:port.
+        replacement: bbe.dabase.com  # Blackbox exporter.
 
 alerting:
   alertmanagers:
