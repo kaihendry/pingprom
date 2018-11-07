@@ -5,14 +5,15 @@ After=docker.service
 
 [Service]
 EnvironmentFile=/etc/default/pingprom
+ExecStartPre=-/usr/bin/docker rm alertmanager
 ExecStartPre=-/usr/bin/docker pull prom/alertmanager
 ExecStart=/usr/bin/docker run --rm \
 	--name alertmanager \
 	--network=pingprom \
 	-v ${PINGPROM}/alertmanager.yml:/alertmanager.yml \
 	prom/alertmanager \
-	-config.file=/alertmanager.yml
-# -web.external-url=https://alerts.example.com
+	--config.file=/alertmanager.yml \
+	--web.external-url=https://alerts.dabase.com
 
 [Install]
 WantedBy=multi-user.target

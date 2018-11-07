@@ -3,13 +3,22 @@ global:
        monitor: 'hostname'
 
 rule_files:
-    - '/pingprom/alert.rules'
+    - '/pingprom/alert.rules.yml'
 
 scrape_configs:
+  - job_name: 'currentcost'
+    basic_auth:
+        username: 'hendry'
+        password: 'boleh'
+    static_configs:
+      - targets: ['cc.dabase.com']
   - job_name: 'bb'
     scrape_interval: 5m
     scrape_timeout: 10s
     metrics_path: /probe
+    basic_auth:
+        username: 'hendry'
+        password: 'boleh'
     params:
       module: [http_2xx]  # Look for a HTTP 200 response.
     file_sd_configs:
@@ -21,4 +30,75 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: blackboxprober:9115  # Blackbox exporter.
+        replacement: bbe.dabase.com  # Blackbox exporter.
+  - job_name: 'mybb'
+    scrape_interval: 5m
+    scrape_timeout: 10s
+    metrics_path: /probe
+    basic_auth:
+        username: 'malaysia'
+        password: 'boleh'
+    params:
+      module: [http_2xx]  # Look for a HTTP 200 response.
+    file_sd_configs:
+      - files:
+        - /pingprom/targets.yml
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: mybbe.dabase.com:8888
+  - job_name: 'blackbox-icmp'
+    metrics_path: /probe
+    basic_auth:
+        username: 'hendry'
+        password: 'boleh'
+    params:
+      module: [icmp]
+    static_configs:
+      - targets:
+        - house.prazefarm.co.uk
+        - 888.dabase.com
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: bbe.dabase.com  # Blackbox exporter.
+  - job_name: 'blackbox-888-icmp'
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    static_configs:
+      - targets:
+        - house.prazefarm.co.uk
+        - 888.dabase.com
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 888.dabase.com:9115  # Blackbox exporter.
+  - job_name: 'blackbox-home'
+    metrics_path: /probe
+    params:
+      module: [http_2xx_home]  # Look for a HTTP 200 response.
+    static_configs:
+      - targets:
+        - https://888.dabase.com
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackboxprober:9115  # The blackbox exporter's real hostname:port.
+
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets: ["alertmanager:9093"]

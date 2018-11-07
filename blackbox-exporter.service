@@ -5,6 +5,7 @@ After=docker.service
 
 [Service]
 EnvironmentFile=/etc/default/pingprom
+ExecStartPre=-/usr/bin/docker rm blackboxprober
 ExecStartPre=-/usr/bin/docker pull prom/blackbox-exporter:master
 ExecStart=/usr/bin/docker run -p 9115:9115 --rm --name blackboxprober \
 		--network=pingprom \

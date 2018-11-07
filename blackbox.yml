@@ -14,3 +14,12 @@ modules:
   icmp:
     prober: icmp
     timeout: 5s
+  http_2xx_home:
+    prober: http
+    timeout: 5s
+    http:
+      method: GET
+      fail_if_not_matches_regexp:
+      - "OK"
+      fail_if_not_ssl: true
+      preferred_ip_protocol: "ip4"
