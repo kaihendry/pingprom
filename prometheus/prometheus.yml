@@ -1,11 +1,10 @@
-global:
-    external_labels:
-       monitor: 'hostname'
-
 rule_files:
     - '/pingprom/alert.rules.yml'
 
 scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
   - job_name: 'currentcost'
     scheme: https
     basic_auth:
@@ -18,6 +17,11 @@ scrape_configs:
     bearer_token: RIlYDc7XhqldRhSOJvgH
     static_configs:
       - targets: ['dbcheck.unee-t.com']
+  - job_name: 'uneetdev'
+    scheme: https
+    bearer_token: O6I9svDTizOfLfdVA5r
+    static_configs:
+      - targets: ['dbcheck.dev.unee-t.com']
   - job_name: 'bb'
     scrape_interval: 5m
     scrape_timeout: 10s
