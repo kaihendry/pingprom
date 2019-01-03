@@ -1,25 +1,23 @@
-# GOAL
+# Kai Hendry's monitoring setup
 
-Implement Pingdom type functionality with https://prometheus.io/ with least LOC possible.
-
-	wc -l *.{yml,service} prometheus/* | tail -n1
-	 129 total
+This is _my setup_ for _my needs_. With my secrets removed. Initially I ran on
+[CoreOS](https://groups.google.com/d/msg/prometheus-users/9d-cX5xtUi8/p_NM00FOCwAJ),
+hence the systemd files. Currently I run on [Void](https://voidlinux.org/).
 
 * Monitor lots of Websites: foo.example.com, bar.example.com, google.com ....
-* Email when site goes down with alertmanager & AWS SES
-* Graph history of outages ... http://%H:9090/graph?g0.range_input=1h&g0.expr=probe_success&g0.tab=0
+* Notify me when a site goes down with AWS SES
+* Use Grafana to monitor
 
-Features:
+If you are looking for an easy hosted solution, I recommend https://apex.sh/ping/
 
-* Keeps upto date between reboots
-* Containerized
+# CoreOS setup notes
 
-# Setup
+(not maintained)
 
 Assuming you are sshing to a [CoreOS](https://coreos.com/) machine. "pingprom" **requires systemd & Docker**.
 
 	ssh core@ip
-	# docker network create pingprom
+	# docker network create --driver bridge pingprom
 	# git clone https://github.com/kaihendry/pingprom.git
 	# export PINGPROM=$(readlink -f pingprom) # make a note where the checkout is
 	# echo PINGPROM=$PINGPROM > /etc/default/pingprom
@@ -31,13 +29,84 @@ Assuming you are sshing to a [CoreOS](https://coreos.com/) machine. "pingprom" *
 
 Now you need to `systemctl status` or `journalctl -b -f` to debug the failing ones and once everything looks OK.
 
-# Caddy configuration for nicer URLs
+# Voidlinux
 
-	prom.example.com {
-		tls youremail@example.com
-		proxy / prom:9090
+Assuming [Docker](https://wiki.voidlinux.org/Docker) is setup.
+
+Notice the Makefile and the .env file of my secrets which requires:
+
+* PASSWORD
+* USERNAME
+* PRODTOKEN
+* DEVTOKEN
+* FROM
+* TO
+* SMTPAUTHUSERNAME
+* SMTPAUTHPASSWORD
+* SMARTHOST
+
+## Blackbox exporter /etc/sv/blackbox-exporter/run
+
+	#!/bin/sh
+	PINGPROM=/home/hendry/pingprom
+	/usr/bin/docker run --rm -p 9115:9115 --privileged -v ${PINGPROM}/blackbox.yml:/config/blackbox.yml \
+	 --name blackboxprober \
+	 prom/blackbox-exporter:master --config.file=/config/blackbox.yml
+
+## Alertmanager /etc/sv/alertmanager/run
+
+	#!/bin/sh
+	PINGPROM=/home/hendry/pingprom
+	/usr/bin/docker run --rm -p 9093:9093 \
+	 --name alertmanager \
+	 --network=pingprom \
+	 -v ${PINGPROM}/alertmanager.yml:/alertmanager.yml \
+	 prom/alertmanager \
+	 --config.file=/alertmanager.yml \
+	 --web.external-url=https://am.dabase.com/
+
+## Grafana /etc/sv/grafana/run
+
+I use Grafana to view my AWS CloudWatch metrics
+
+	#!/bin/sh
+	/usr/bin/docker run --rm -p 2000:3000 --user 1000 -v /home/hendry/grafana:/var/lib/grafana \
+			-v "/home/hendry/.aws:/usr/share/grafana/.aws" \
+			-e HOME=/usr/share/grafana \
+			grafana/grafana
+
+## Caddy /etc/sv/caddy/run
+
+	#!/bin/sh
+	CADDYPATH="/var/lib/caddy"
+	export CADDYPATH
+	mkdir -p "$CADDYPATH"
+	chmod 0700 "$CADDYPATH"
+	chown caddy:caddy "$CADDYPATH"
+	cd /etc/caddy
+	exec chpst -o 8192 -u caddy caddy
+
+### /etc/caddy/caddy.conf.d/prom.conf
+
+	prom.dabase.com {
+		proxy / 192.168.1.5:9090
+		basicauth / $USERNAME $PASSWORD
 	}
-	alerts.example.com {
-		tls youremail@example.com
-		proxy / alertmanager:9093
+
+### /etc/caddy/caddy.conf.d/am.conf
+
+	alerts.dabase.com {
+		proxy / 192.168.1.5:9093
+		basicauth / $USERNAME $PASSWORD
 	}
+
+### /etc/caddy/caddy.conf.d/bbe.conf
+
+	bbe.dabase.com {
+		proxy / 192.168.1.5:9115
+		basicauth / $USERNAME $PASSWORD
+	}
+
+### /etc/caddy/caddy.conf.d/grafana.conf
+
+	grafana.dabase.com { proxy / 192.168.1.5:2000 }

@@ -1,0 +1,91 @@
+rule_files:
+    - '/pingprom/alert.rules.yml'
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'currentcost'
+    scheme: https
+    basic_auth:
+        username: '$USERNAME'
+        password: '$PASSWORD'
+    static_configs:
+      - targets: ['cc.dabase.com']
+  - job_name: 'uneetprod'
+    scheme: https
+    bearer_token: $PRODTOKEN
+    static_configs:
+      - targets: ['dbcheck.unee-t.com']
+  - job_name: 'uneetdev'
+    scheme: https
+    bearer_token: $DEVTOKEN
+    static_configs:
+      - targets: ['dbcheck.dev.unee-t.com']
+  - job_name: 'bb'
+    scrape_interval: 5m
+    scrape_timeout: 10s
+    metrics_path: /probe
+    scheme: https
+    basic_auth:
+        username: '$USERNAME'
+        password: '$PASSWORD'
+    params:
+      module: [http_2xx]  # Look for a HTTP 200 response.
+    file_sd_configs:
+      - files:
+        - /pingprom/targets.yml
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: bbe.dabase.com  # Blackbox exporter.
+  - job_name: 'mybb'
+    scrape_interval: 5m
+    scrape_timeout: 10s
+    metrics_path: /probe
+    scheme: https
+    basic_auth:
+        username: 'malaysia'
+        password: '$PASSWORD'
+    params:
+      module: [http_2xx]  # Look for a HTTP 200 response.
+    file_sd_configs:
+      - files:
+        - /pingprom/targets.yml
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: mybbe.dabase.com
+  - job_name: 'blackbox-icmp'
+    metrics_path: /probe
+    scheme: https
+    basic_auth:
+        username: '$USERNAME'
+        password: '$PASSWORD'
+    params:
+      module: [icmp]
+    static_configs:
+      - targets:
+        - house.prazefarm.co.uk
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: bbe.dabase.com  # Blackbox exporter.
+
+alerting:
+  alertmanagers:
+      - scheme: https
+        basic_auth:
+            username: '$USERNAME'
+            password: '$PASSWORD'
+        static_configs:
+          - targets: ['alerts.dabase.com']
