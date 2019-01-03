@@ -8,18 +8,18 @@ scrape_configs:
   - job_name: 'currentcost'
     scheme: https
     basic_auth:
-        username: 'hendry'
-        password: 'boleh'
+        username: '$USERNAME'
+        password: '$PASSWORD'
     static_configs:
       - targets: ['cc.dabase.com']
   - job_name: 'uneetprod'
     scheme: https
-    bearer_token: RIlYDc7XhqldRhSOJvgH
+    bearer_token: $PRODTOKEN
     static_configs:
       - targets: ['dbcheck.unee-t.com']
   - job_name: 'uneetdev'
     scheme: https
-    bearer_token: O6I9svDTizOfLfdVA5ri
+    bearer_token: $DEVTOKEN
     static_configs:
       - targets: ['dbcheck.dev.unee-t.com']
   - job_name: 'bb'
@@ -28,8 +28,8 @@ scrape_configs:
     metrics_path: /probe
     scheme: https
     basic_auth:
-        username: 'hendry'
-        password: 'boleh'
+        username: '$USERNAME'
+        password: '$PASSWORD'
     params:
       module: [http_2xx]  # Look for a HTTP 200 response.
     file_sd_configs:
@@ -49,7 +49,7 @@ scrape_configs:
     scheme: https
     basic_auth:
         username: 'malaysia'
-        password: 'boleh'
+        password: '$PASSWORD'
     params:
       module: [http_2xx]  # Look for a HTTP 200 response.
     file_sd_configs:
@@ -66,8 +66,8 @@ scrape_configs:
     metrics_path: /probe
     scheme: https
     basic_auth:
-        username: 'hendry'
-        password: 'boleh'
+        username: '$USERNAME'
+        password: '$PASSWORD'
     params:
       module: [icmp]
     static_configs:
@@ -85,7 +85,7 @@ alerting:
   alertmanagers:
       - scheme: https
         basic_auth:
-            username: 'hendry'
-            password: 'boleh'
+            username: '$USERNAME'
+            password: '$PASSWORD'
         static_configs:
           - targets: ['alerts.dabase.com']

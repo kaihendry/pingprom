@@ -1,9 +1,9 @@
 # Simple example reference: https://github.com/prometheus/alertmanager/blob/master/doc/examples/simple.yml
 global:
-    smtp_smarthost: 'email-smtp.us-west-2.amazonaws.com:587'
-    smtp_from: 'Alertmanager <rojak@webconverger.com>'
-    smtp_auth_username: 'AKIAINSHZHYMQYHXD4FQ'
-    smtp_auth_password: 'Ao2d1pm+eYJPexGghoTU9L9Y/DvPv+Rr5zBlIk6IJ23k'
+    smtp_smarthost: '$SMARTHOST'
+    smtp_from: '$FROM'
+    smtp_auth_username: '$SMTPAUTHUSERNAME'
+    smtp_auth_password: '$SMTPAUTHPASSWORD'
 
 templates:
 - '/etc/alertmanager/template/*.tmpl'
@@ -14,4 +14,4 @@ route:
 receivers:
 - name: 'team-X-mails'
   email_configs:
-  - to: 'hendry+prom2@fastmail.fm'
+  - to: '$TO'
