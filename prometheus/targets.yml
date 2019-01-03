@@ -1,6 +1,8 @@
 - targets:
-    - 888.dabase.com
+    - void.webconverger.org
     - config.webconverger.com
     - bus.dabase.com
-    - wiki.voidlinux.eu
+    - webconverger.org
+    - case.dev.unee-t.com
     - case.unee-t.com
+    - fail.dabase.com

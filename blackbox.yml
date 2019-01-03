@@ -3,17 +3,23 @@ modules:
     prober: http
     timeout: 5s
     http:
+      preferred_ip_protocol: ip4
   http_post_2xx:
     prober: http
     timeout: 5s
     http:
       method: POST
+      preferred_ip_protocol: ip4
   tcp_connect:
     prober: tcp
     timeout: 5s
+    tcp:
+      preferred_ip_protocol: ip4
   icmp:
     prober: icmp
     timeout: 5s
+    icmp:
+      preferred_ip_protocol: ip4
   http_2xx_home:
     prober: http
     timeout: 5s
@@ -22,4 +28,4 @@ modules:
       fail_if_not_matches_regexp:
       - "OK"
       fail_if_not_ssl: true
-      preferred_ip_protocol: "ip4"
+      preferred_ip_protocol: ip4

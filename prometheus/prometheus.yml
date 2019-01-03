@@ -19,7 +19,7 @@ scrape_configs:
       - targets: ['dbcheck.unee-t.com']
   - job_name: 'uneetdev'
     scheme: https
-    bearer_token: O6I9svDTizOfLfdVA5r
+    bearer_token: O6I9svDTizOfLfdVA5ri
     static_configs:
       - targets: ['dbcheck.dev.unee-t.com']
   - job_name: 'bb'
@@ -73,44 +73,6 @@ scrape_configs:
     static_configs:
       - targets:
         - house.prazefarm.co.uk
-        - 888.dabase.com
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: bbe.dabase.com  # Blackbox exporter.
-  - job_name: 'blackbox-888-icmp'
-    metrics_path: /probe
-    scheme: https
-    basic_auth:
-        username: 'hendry'
-        password: 'boleh'
-    params:
-      module: [icmp]
-    static_configs:
-      - targets:
-        - house.prazefarm.co.uk
-        - 888.dabase.com
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: bbe.dabase.com  # Blackbox exporter.
-  - job_name: 'blackbox-home'
-    metrics_path: /probe
-    scheme: https
-    basic_auth:
-        username: 'hendry'
-        password: 'boleh'
-    params:
-      module: [http_2xx_home]  # Look for a HTTP 200 response.
-    static_configs:
-      - targets:
-        - https://888.dabase.com
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -121,5 +83,9 @@ scrape_configs:
 
 alerting:
   alertmanagers:
-    - static_configs:
-      - targets: ["alertmanager:9093"]
+      - scheme: https
+        basic_auth:
+            username: 'hendry'
+            password: 'boleh'
+        static_configs:
+          - targets: ['alerts.dabase.com']
