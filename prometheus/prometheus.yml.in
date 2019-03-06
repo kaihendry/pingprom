@@ -5,6 +5,19 @@ scrape_configs:
   - job_name: prometheus
     static_configs:
       - targets: ['localhost:9090']
+  - job_name: smokeping
+    static_configs:
+      - targets: ['localhost:9374']
+  - job_name: sgmikrotik
+    static_configs:
+      - targets: ['localhost:9436']
+  - job_name: pjmikrotik
+    scheme: https
+    basic_auth:
+        username: malaysia
+        password: '$PASSWORD'
+    static_configs:
+      - targets: ['pjm.dabase.com']
   - job_name: 'currentcost'
     scheme: https
     basic_auth:
@@ -17,6 +30,11 @@ scrape_configs:
     bearer_token: $PRODTOKEN
     static_configs:
       - targets: ['dbcheck.unee-t.com']
+  - job_name: 'uneetdemo'
+    scheme: https
+    bearer_token: $DEMOTOKEN
+    static_configs:
+      - targets: ['dbcheck.demo.unee-t.com']
   - job_name: 'uneetdev'
     scheme: https
     bearer_token: $DEVTOKEN

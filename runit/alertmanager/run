@@ -1,0 +1,9 @@
+#!/bin/sh
+PINGPROM=/home/hendry/pingprom
+/usr/bin/docker run --rm -p 9093:9093 \
+ --name alertmanager \
+ --network="host" \
+ -v ${PINGPROM}/alertmanager.yml:/alertmanager.yml \
+ prom/alertmanager \
+ --config.file=/alertmanager.yml \
+ --web.external-url=https://alerts.dabase.com/

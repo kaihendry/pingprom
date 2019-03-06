@@ -1,0 +1,8 @@
+#!/bin/sh
+PINGPROM=/home/hendry/pingprom
+/usr/bin/docker run --rm -p 9090:9090 -v ${PINGPROM}/data:/prometheus/data -v ${PINGPROM}/prometheus:/pingprom/ \
+ --network="host" \
+ --name prom \
+ prom/prometheus --config.file=/pingprom/prometheus.yml \
+ --web.console.templates=/usr/share/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries \
+ --web.external-url=https://prom.dabase.com/
