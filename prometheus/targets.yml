@@ -1,8 +1,2 @@
 - targets:
-    - void.webconverger.org
-    - config.webconverger.com
-    - bus.dabase.com
-    - webconverger.org
-    - case.dev.unee-t.com
-    - case.unee-t.com
-    - fail.dabase.com
+    - example.com

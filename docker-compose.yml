@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  prometheus:
+    image: prom/prometheus
+    command: ['--config.file=/pingprom/prometheus.yml',
+              '--web.console.templates=/usr/share/prometheus/consoles',
+              '--web.console.libraries=/etc/prometheus/console_libraries']
+    ports:
+      - 9090:9090
+    volumes:
+      - ./data:/prometheus/data
+      - ./prometheus:/pingprom/
+
+  blackbox:
+    privileged: true
+    image: prom/blackbox-exporter
+    command: ['--config.file=/config/blackbox.yml']
+    ports:
+      - 9115:9115
+    volumes:
+      - ./blackbox.yml:/config/blackbox.yml
+
+  alertmanager:
+    image: prom/alertmanager
+    command: ['--config.file=/alertmanager.yml']
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager.yml:/alertmanager.yml
