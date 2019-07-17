@@ -1,14 +1,15 @@
 groups:
-- name: /working/alert.rules
-  rules:
-  - alert: website_down
-    expr: probe_success == 0
-    for: 1h
-    labels:
-      severity: page
-    annotations:
-      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than an hour.'
-      summary: Instance {{ $labels.instance }} down
-  - alert: downage
-    expr: up == 0
-    for: 1h
+  - name: /working/alert.rules
+    rules:
+      - alert: website_down
+        expr: probe_success == 0
+        for: 1h
+        labels:
+          severity: page
+        annotations:
+          description: '{{ $labels.instance }} of job {{ $labels.job }} has
+                        been down for more than an hour.'
+          summary: Instance {{ $labels.instance }} down
+      - alert: downage
+        expr: up == 0
+        for: 1h

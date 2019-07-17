@@ -1,4 +1,3 @@
-# Simple example reference: https://github.com/prometheus/alertmanager/blob/master/doc/examples/simple.yml
 global:
     smtp_smarthost: '$SMARTHOST'
     smtp_from: '$FROM'
@@ -6,12 +5,12 @@ global:
     smtp_auth_password: '$SMTPAUTHPASSWORD'
 
 templates:
-- '/etc/alertmanager/template/*.tmpl'
+    - '/etc/alertmanager/template/*.tmpl'
 
 route:
-  receiver: 'team-X-mails'
+    receiver: 'team-X-mails'
 
 receivers:
-- name: 'team-X-mails'
-  email_configs:
-  - to: '$TO'
+    - name: 'team-X-mails'
+      email_configs:
+          - to: '$TO'

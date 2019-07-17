@@ -1,36 +1,28 @@
-rule_files:
-    - '/pingprom/alert.rules.yml'
-
 scrape_configs:
-  - job_name: prometheus
-    static_configs:
-      - targets: ['prometheus:9090']
-  - job_name: 'bb'
-    scrape_interval: 5m
-    scrape_timeout: 10s
-    metrics_path: /probe
-    scheme: http
-    basic_auth:
-        username: '$USERNAME'
-        password: '$PASSWORD'
-    params:
-      module: [http_2xx]  # Look for a HTTP 200 response.
-    file_sd_configs:
-      - files:
-        - /pingprom/targets.yml
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: blackbox:9115
+    - job_name: pingprom
+      static_configs:
+          - targets: ['prometheus:9090']
+    - job_name: 'blackbox'
+      metrics_path: /probe
+      scheme: http
+      params:
+          module: [http_2xx]
+      file_sd_configs:
+          - files:
+                - /pingprom/targets.yml
+      relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: blackbox:9115
 
 alerting:
-  alertmanagers:
-      - scheme: http
-        basic_auth:
-            username: '$USERNAME'
-            password: '$PASSWORD'
-        static_configs:
-            - targets: ['alertmanager:9093']
+    alertmanagers:
+        - scheme: http
+          static_configs:
+              - targets: ['alertmanager:9093']
+
+rule_files:
+    - '/pingprom/alert.rules.yml'
