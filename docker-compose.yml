@@ -1,30 +1,36 @@
 version: "3"
 
 services:
+  volumes-provisioner:
+    image: hasnat/volumes-provisioner
+    environment:
+      PROVISION_DIRECTORIES: "472:472:0755:/var/data/prometheus/data"
+    volumes:
+      - "./prom-data:/var/data"
+
   prometheus:
     image: prom/prometheus
-    command: ['--config.file=/pingprom/prometheus.yml',
-              '--web.console.templates=/usr/share/prometheus/consoles',
-              '--web.console.libraries=/etc/prometheus/console_libraries']
-    ports:
-      - 9090:9090
+    command: ['--config.file=/pingprom/prometheus.yml']
+    ports: ['9090:9090']
     volumes:
-      - ./data:/prometheus/data
+      - ./prom-data:/prometheus/data
       - ./prometheus:/pingprom/
 
   blackbox:
     privileged: true
     image: prom/blackbox-exporter
     command: ['--config.file=/config/blackbox.yml']
-    ports:
-      - 9115:9115
-    volumes:
-      - ./blackbox.yml:/config/blackbox.yml
+    ports: ['9115:9115']
+    volumes: ['./blackbox.yml:/config/blackbox.yml']
 
   alertmanager:
     image: prom/alertmanager
     command: ['--config.file=/alertmanager.yml']
-    ports:
-      - 9093:9093
+    ports: ['9093:9093']
+    volumes: ['./alertmanager.yml:/alertmanager.yml']
+
+  grafana: # https://grafana.com/docs/installation/docker/#configuration
+    image: grafana/grafana
+    ports: ['3000:3000']
     volumes:
-      - ./alertmanager.yml:/alertmanager.yml
+      - ./grafana-data:/var/lib/grafana
