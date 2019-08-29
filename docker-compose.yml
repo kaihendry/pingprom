@@ -4,9 +4,10 @@ services:
   volumes-provisioner:
     image: hasnat/volumes-provisioner
     environment:
-      PROVISION_DIRECTORIES: "472:472:0755:/var/data/prometheus/data"
+      PROVISION_DIRECTORIES: "65534:65534:0755:/var/data/prometheus;472:472:0755:/var/data/grafana"
     volumes:
-      - "./prom-data:/var/data"
+      - "./prom-data:/var/data/prometheus"
+      - "./grafana-data:/var/data/grafana"
 
   prometheus:
     image: prom/prometheus
