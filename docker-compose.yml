@@ -1,20 +1,11 @@
 version: "3"
 
 services:
-  volumes-provisioner:
-    image: hasnat/volumes-provisioner
-    environment:
-      PROVISION_DIRECTORIES: "65534:65534:0755:/var/data/prometheus;472:472:0755:/var/data/grafana"
-    volumes:
-      - "./prom-data:/var/data/prometheus"
-      - "./grafana-data:/var/data/grafana"
-
   prometheus:
     image: prom/prometheus
     command: ['--config.file=/pingprom/prometheus.yml']
     ports: ['9090:9090']
     volumes:
-      - ./prom-data:/prometheus/data
       - ./prometheus:/pingprom/
 
   blackbox:
@@ -34,4 +25,7 @@ services:
     image: grafana/grafana
     ports: ['3000:3000']
     volumes:
-      - ./grafana-data:/var/lib/grafana
+      - ./datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "pingprom"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"

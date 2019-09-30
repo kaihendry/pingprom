@@ -1,4 +1,0 @@
-Reformat YAML
-Document and source all secrets from .env like docker-compose does
-Setup data/ permissions
-Introduce Grafana https://grafana.com/docs/installation/docker/
