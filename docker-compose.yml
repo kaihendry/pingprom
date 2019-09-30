@@ -27,5 +27,5 @@ services:
     volumes:
       - ./grafana:/etc/grafana/provisioning/
     environment:
-      GF_SECURITY_ADMIN_PASSWORD: "pingprom"
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
       GF_AUTH_ANONYMOUS_ENABLED: "true"
