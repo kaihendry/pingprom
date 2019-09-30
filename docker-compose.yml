@@ -25,7 +25,7 @@ services:
     image: grafana/grafana
     ports: ['3000:3000']
     volumes:
-      - ./datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./grafana:/etc/grafana/provisioning/
     environment:
       GF_SECURITY_ADMIN_PASSWORD: "pingprom"
       GF_AUTH_ANONYMOUS_ENABLED: "true"

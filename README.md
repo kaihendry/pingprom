@@ -3,12 +3,6 @@
 Refactored as a simple starting point to help introduce you to Prometheus
 based monitoring.
 
-	docker-compose up
-
-To clean up:
-
-	docker-compose down -v
-
 # Services
 
 You only need visit
@@ -27,3 +21,7 @@ Which integrates with these "targets" via the prometheus configuration.
 The alert manager configuration needs `.env` file with at least `$FROM`, `$TO`, `$SMARTHOST` set at a minimum.
 
 `targets.yml` are where you list out the hosts you want to monitor.
+
+# Reference
+
+<https://grafana.com/docs/administration/provisioning/>
